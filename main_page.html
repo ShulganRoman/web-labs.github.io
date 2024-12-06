@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru, en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кубик рубика</title>
+    <link rel="stylesheet" href="css%20folder/styles.css">
+    <!--    <link rel="stylesheet" href="css%20folder/outline-prototype-label.css">-->
+    <!--    <link rel="stylesheet" href="css%20folder/outline-prototype-safe.css">-->
+</head>
+
+<body>
+<section class="round"
+         style="height: 1100px; width: 100%; background: grey">
+    <section>
+        <div class="centering">
+            <h1 class="module round" style="background: #C5C5C5FF">
+                Кубик рубика
+            </h1>
+        </div>
+    </section>
+
+    <nav class="centering">
+        <ul class="module round" style="background: #000000">
+            <a class="module round" style="background: #C5C5C5FF" href="#history">История</a>
+            <a class="module round" style="background: #C5C5C5FF" href="#intersting-facts">Интересные факты</a>
+            <a class="module round" style="background: #C5C5C5FF" href="#achivements">Достижения</a>
+        </ul>
+    </nav>
+
+    <section class="flex-container">
+        <dev class="module round"
+             style="background-color: #C5C5C5FF; height: 200px; width: 100%; box-sizing: border-box;">
+            <h2>Что такое кубик Рубика?</h2>
+            <p>
+                <strong>Кубик Рубика</strong> — это популярная головоломка,
+                которая завоевала весь мир с момента её изобретения.
+                Он помогает развивать логику, мышление и пространственное воображение.
+            </p>
+        </dev>
+
+        <dev class="module round"
+             style="background-color: #C5C5C5FF; height: 200px; width: 100%; box-sizing: border-box;">
+            <article id="history">
+                <h2>История происхождения</h2>
+                <p>Кубик Рубика был изобретен в 1974 году <strong>Эрнё Рубиком</strong>, венгерским архитектором и
+                    скульптором.
+                    Первоначально он был задуман как учебное пособие для изучения трехмерной геометрии. Однако кубик
+                    быстро стал
+                    популярным как головоломка для всех возрастов.</p>
+            </article>
+        </dev>
+
+        <dev class="module round"
+             style="background-color: #C5C5C5FF; height: 200px; width: 100%; box-sizing: border-box;">
+            <h3>Интересный факт:</h3>
+            <p>Известно, что для того, чтобы собрать кубик Рубика с любого состояния, достаточно <em>20</em> ходов,
+                независимо от комбинации начального состояния!</p>
+        </dev>
+    </section>
+
+
+    <section>
+        <h3>ASCII графика кубика</h3>
+        <pre>
+┌───┬───┬───┐
+│ R │ R │ R │
+├───┼───┼───┤
+│ R │ R │ R │
+├───┼───┼───┤
+│ R │ R │ R │
+└───┴───┴───┘
+            </pre>
+        <p>Пример кубика Рубика в ASCII формате.</p>
+    </section>
+
+    <dev class="centering">
+        <h3>Кубик из лабы предыдущих лет</h3>
+    </dev>
+
+    <section>
+        <dev class="centering">
+            <svg width="500" height="500" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <clipPath id="circle">
+                    <circle cx="100" cy="93" r="80"/>
+                </clipPath>
+                <image href="images/cube.png" width="200" height="200" clip-path="url(#circle)"/>
+            </svg>
+        </dev>
+    </section>
+
+</section>
+</body>
+</html>
