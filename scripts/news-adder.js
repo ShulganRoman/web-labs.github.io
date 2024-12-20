@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Получаем секцию со статьями
     const articlesSection = document.querySelector('.articles');
 
-    // Функция для отображения новости на странице
     function displayNewsItem(title, imageData, dateString) {
         const newArticle = document.createElement('article');
         newArticle.classList.add('article-card');
@@ -33,13 +31,10 @@ document.addEventListener('DOMContentLoaded', function() {
         newArticle.appendChild(newImage);
         newArticle.appendChild(contentDiv);
 
-        // Добавляем статью в начало списка статей
         articlesSection.insertAdjacentElement('afterbegin', newArticle);
     }
 
-    // Загружаем сохраненные новости из localStorage
     let savedNews = JSON.parse(localStorage.getItem('savedNews')) || [];
-    // Отображаем сохраненные новости
     savedNews.forEach(newsItem => {
         displayNewsItem(newsItem.title, newsItem.imageData, newsItem.date);
     });

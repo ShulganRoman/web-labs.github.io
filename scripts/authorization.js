@@ -21,7 +21,6 @@ document.getElementById('loginButton').addEventListener('click', () => {
     }).then((result) => {
         if (result.value && result.value.username === 'admin' && result.value.password === '1234') {
             toastr.success('Авторизация прошла успешно!');
-            // Удаляем кнопку после успешного входа
             document.getElementById('loginButton').remove();
         } else {
             toastr.error('Ошибка авторизации! Проверьте данные.');
