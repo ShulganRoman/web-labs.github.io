@@ -259,9 +259,11 @@ body {
     .articles {
         grid-template-columns: repeat(2, 1fr);
     }
+
     .header__menu-item a {
         font-size: 0.9rem;
     }
+
     .header__logo {
         font-size: 1.4rem;
     }
@@ -334,5 +336,4 @@ body {
         margin: 0 10px;
     }
 }
-
     
