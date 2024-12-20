@@ -9,6 +9,63 @@
     <link rel="stylesheet" href="../css/preload.css">
     <script src="../scripts/main.js" defer></script>
     <script src="../scripts/preload.js" defer></script>
+    <style>
+        .add-news-form {
+            display: none;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            max-width: 400px;
+            background: #f9f9f9;
+            margin: 20px auto
+        }
+
+        .add-news-form label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .add-news-form input[type="text"],
+        .add-news-form input[type="file"] {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .add-news-form button[type="submit"] {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background: #0d6efd;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .add-news-form button[type="submit"]:hover {
+            background: #0b5ed7;
+        }
+
+        .add-news-button {
+            margin-top: 20px;
+            border-radius: 5px;
+            display: flex;
+            justify-self: center;
+            padding: 10px 20px;
+            background: #198754;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .add-news-button:hover {
+            background: #157347;
+        }
+
+        .article-card__image {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 
 <body>
@@ -36,7 +93,31 @@
 
 <main class="main-content">
     <h1>Новостная лента</h1>
-    <section class="articles">
+
+    
+    <button id="add-news-button" class="add-news-button">Добавить новость</button>
+
+    
+    <form id="add-news-form" class="add-news-form">
+        <label for="news-title">Заголовок новости:</label>
+        <input type="text" id="news-title" name="news-title" placeholder="Введите заголовок..." required>
+
+        <label for="news-image">Выберите изображение:</label>
+        <input type="file" id="news-image" name="news-image" accept="image/*" required>
+
+        <label for="news-category">Категория:</label>
+        <select id="news-category" name="news-category" required>
+            <option value="Учёба">Учёба</option>
+            <option value="Наука">Наука</option>
+            <option value="Будни">Будни</option>
+            <option value="Досуг">Досуг</option>
+        </select>
+
+        <button type="submit">Опубликовать</button>
+    </form>
+
+    <section class="articles" id="articles-section">
+        
         <article class="article-card">
             <img src="../pics/image1.jpg" class="article-card__image" alt="some picture">
             <div class="article-card__content">
@@ -74,5 +155,118 @@
         </article>
     </section>
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addNewsButton = document.getElementById('add-news-button');
+        const addNewsForm = document.getElementById('add-news-form');
+        const titleInput = document.getElementById('news-title');
+        const imageInput = document.getElementById('news-image');
+        const categorySelect = document.getElementById('news-category');
+        const articlesSection = document.getElementById('articles-section');
+
+        
+        function displayNewsItem(title, imageData, dateString, category) {
+            const newArticle = document.createElement('article');
+            newArticle.classList.add('article-card');
+
+            const newImage = document.createElement('img');
+            newImage.classList.add('article-card__image');
+            newImage.src = imageData;
+            newImage.alt = title;
+
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('article-card__content');
+
+            const newTitle = document.createElement('h3');
+            newTitle.classList.add('article-card__title');
+            newTitle.textContent = title;
+
+            const newDate = document.createElement('p');
+            newDate.classList.add('article-card__date');
+            newDate.textContent = dateString;
+
+            const newCategory = document.createElement('p');
+            newCategory.classList.add('article-card__category');
+            newCategory.textContent = category;
+
+            contentDiv.appendChild(newTitle);
+            contentDiv.appendChild(newDate);
+            contentDiv.appendChild(newCategory);
+            newArticle.appendChild(newImage);
+            newArticle.appendChild(contentDiv);
+
+            
+            articlesSection.insertAdjacentElement('afterbegin', newArticle);
+        }
+
+        
+        let savedNews = JSON.parse(localStorage.getItem('savedNews')) || [];
+
+        
+        savedNews.forEach(newsItem => {
+            displayNewsItem(newsItem.title, newsItem.imageData, newsItem.date, newsItem.category);
+        });
+
+        
+        addNewsButton.addEventListener('click', function() {
+            if (addNewsForm.style.display === 'none' || addNewsForm.style.display === '') {
+                addNewsForm.style.display = 'block';
+                addNewsButton.textContent = 'Скрыть форму';
+            } else {
+                addNewsForm.style.display = 'none';
+                addNewsButton.textContent = 'Добавить новость';
+            }
+        });
+
+        
+        addNewsForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const titleValue = titleInput.value.trim();
+            const file = imageInput.files[0];
+            const categoryValue = categorySelect.value;
+
+            if (!titleValue || !file || !categoryValue) {
+                alert('Заполните все поля!');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const imageData = event.target.result; 
+                const today = new Date();
+                const dateString = today.toLocaleDateString('ru-RU', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                
+                displayNewsItem(titleValue, imageData, dateString, categoryValue);
+
+                
+                const newNewsItem = {
+                    title: titleValue,
+                    imageData: imageData,
+                    date: dateString,
+                    category: categoryValue
+                };
+                savedNews.unshift(newNewsItem);
+                localStorage.setItem('savedNews', JSON.stringify(savedNews));
+
+                
+                titleInput.value = '';
+                imageInput.value = '';
+                categorySelect.value = 'Учёба';
+
+                
+                addNewsForm.style.display = 'none';
+                addNewsButton.textContent = 'Добавить новость';
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+</script>
 </body>
 </html>

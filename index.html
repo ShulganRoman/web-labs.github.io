@@ -9,10 +9,15 @@
     <title>Logos</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/preload.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastr/build/toastr.min.css">
+    <link rel="stylesheet" href="css/authorization.css">
     <link rel="stylesheet" href="css/connection-status.css">
     <script src="scripts/main.js" defer></script>
     <script src="scripts/preload.js" defer></script>
     <script src="scripts/connection-status.js" defer></script>
+    <script src="scripts/authorization.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastr/build/toastr.min.js"></script>
 </head>
 
 <body>
@@ -39,8 +44,9 @@
             <li class="header__menu-item"><a href="html/constructor.html">Конструктор</a></li>
         </ul>
     </nav>
+
     <div class="header__auth">
-        <a href="#" class="header__auth-link">Авторизация</a>
+        <button id="loginButton" class="header__auth-link btn">Авторизация</button>
         <span class="header__search-icon">&#128269;</span>
     </div>
 </header>
@@ -152,5 +158,60 @@
         </table>
     </section>
 </main>
+
+<footer style="background-color: #930000; color: white; padding: 20px; text-align: center; font-family: Arial, sans-serif;">
+    <p>• Телефон: <a href="tel:+79526669999" style="color: white; text-decoration: none;">+7 (952) 666 99-99</a></p>
+    <p>• Адрес: г. Санкт-Петербург, Кронверкский проспект 49 литера А</p>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Получаем секцию со статьями
+        const articlesSection = document.querySelector('.articles');
+
+        // Функция для отображения новости на странице
+        function displayNewsItem(title, imageData, dateString) {
+            const newArticle = document.createElement('article');
+            newArticle.classList.add('article-card');
+
+            const newImage = document.createElement('img');
+            newImage.classList.add('article-card__image');
+            newImage.src = imageData;
+            newImage.alt = title;
+
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('article-card__content');
+
+            const newTitle = document.createElement('h3');
+            newTitle.classList.add('article-card__title');
+            newTitle.textContent = title;
+
+            const newDate = document.createElement('p');
+            newDate.classList.add('article-card__date');
+            newDate.textContent = dateString;
+
+            const newCategory = document.createElement('p');
+            newCategory.classList.add('article-card__category');
+            newCategory.textContent = 'Без категории';
+
+            contentDiv.appendChild(newTitle);
+            contentDiv.appendChild(newDate);
+            contentDiv.appendChild(newCategory);
+            newArticle.appendChild(newImage);
+            newArticle.appendChild(contentDiv);
+
+            // Добавляем статью в начало списка статей
+            articlesSection.insertAdjacentElement('afterbegin', newArticle);
+        }
+
+        // Загружаем сохраненные новости из localStorage
+        let savedNews = JSON.parse(localStorage.getItem('savedNews')) || [];
+        // Отображаем сохраненные новости
+        savedNews.forEach(newsItem => {
+            displayNewsItem(newsItem.title, newsItem.imageData, newsItem.date);
+        });
+    });
+</script>
+
 </body>
 </html>

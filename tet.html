@@ -1,49 +1,57 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <style>
-    #connection-status {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #333;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 5px;
-      display: none;
-      font-family: sans-serif;
-      font-size: 14px;
-      z-index: 9999;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Work</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastr/build/toastr.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #bf2d2d;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
+<button id="loginButton" class="btn">Войти</button>
 
-<div id="connection-status"></div>
-some text
 
 <script>
-  const connectionStatus = document.getElementById('connection-status');
+    document.getElementById('loginButton').addEventListener('click', () => {
+        Swal.fire({
+            title: 'Вход в систему',
+            html: `<input type="text" id="username" class="swal2-input" placeholder="Логин">
+<input type="password" id="password" class="swal2-input" placeholder="Пароль">`,
+            confirmButtonText: 'Войти',
+            focusConfirm: false,
+            preConfirm: () => {
+                const username = Swal.getPopup().querySelector('#username').value;
+                const password = Swal.getPopup().querySelector('#password').value;
 
-  function showTemporaryMessage(message, displayTime = 3000) {
-    connectionStatus.textContent = message;
-    connectionStatus.style.display = 'block';
-
-    setTimeout(() => {
-      connectionStatus.style.display = 'none';
-    }, displayTime);
-  }
-
-  window.addEventListener('online', () => {
-    showTemporaryMessage('Соединение восстановлено', 3000);
-  });
-
-  window.addEventListener('offline', () => {
-    showTemporaryMessage('Соединение потеряно', 3000);
-  });
+                if (!username || !password) {
+                    Swal.showValidationMessage('Пожалуйста, введите логин и пароль');
+                    return;
+                }
+                return {username, password};
+            },
+        }).then((result) => {
+            if (result.value && result.value.username === 'admin' && result.value.password === '1234') {
+                toastr.success('Авторизация прошла успешно!');
+                // Удаляем кнопку после успешного входа
+                document.getElementById('loginButton').remove();
+            } else {
+                toastr.error('Ошибка авторизации! Проверьте данные.');
+            }
+        });
+    });
 </script>
+
 </body>
 </html>
